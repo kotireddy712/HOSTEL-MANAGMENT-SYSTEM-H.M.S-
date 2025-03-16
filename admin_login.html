@@ -5,22 +5,72 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Login</title>
     <style>
-        body { text-align: center; font-family: Arial, sans-serif; margin-top: 100px; }
-        .container { width: 50%; margin: auto; }
-        input, button { display: block; width: 80%; margin: 10px auto; padding: 10px; }
-        button { background: #f44336; color: white; border: none; cursor: pointer; }
-        button:hover { background: #d32f2f; }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            padding: 50px;
+        }
+
+        .welcome-btn {
+            background-color: #4CAF50;
+            color: white;
+            font-size: 22px;
+            padding: 15px 30px;
+            border: none;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+        .login-container {
+            background-color: white;
+            width: 300px;
+            margin: auto;
+            padding: 20px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        input[type="text"], input[type="password"] {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .login-btn {
+            background-color: #007BFF;
+            color: white;
+            font-size: 18px;
+            padding: 10px;
+            width: 100%;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .login-btn:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Welcome Admin</h1>
-        <form action="{{ url_for('admin_login') }}" method="post">
-            <input type="text" name="user_id" placeholder="Enter Admin ID" required>
-            <input type="password" name="password" placeholder="Enter Password" required>
-            <button type="submit">Login</button>
+
+    <button class="welcome-btn">Welcome Admin</button>
+
+    <div class="login-container">
+        <h2>Admin Login</h2>
+        <form action="/admin_login" method="POST"> <!-- Updated to match Flask route -->
+            <input type="text" name="email_id" placeholder="Enter Email ID" required>  
+            <input type="password" name="password" placeholder="Enter Password" required>  
+            <button type="submit" class="login-btn">Login</button>  
         </form>
     </div>
+
 </body>
 </html>
-
