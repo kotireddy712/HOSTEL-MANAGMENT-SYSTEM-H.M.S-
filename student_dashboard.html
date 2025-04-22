@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        body {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            /* background: linear-gradient(-45deg, #ff5733, #2980b9, #27ae60, #f39c12); */
+            background-color:#111111;
+            background-size: 400% 400%;
+             /* animation: gradientBG 8s ease infinite;   */
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .dashboard-container {
+            width: 90%;
+            max-width: 1000px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding-top: 30px; /* Increased spacing */
+        }
+
+        h2 {
+            color: #986ce4;
+            font-size: 30px;
+            margin-bottom: 25px; 
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        }
+
+        .btn {
+            width: 220px;
+            height: 220px;
+            border-radius: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3);
+            text-decoration: none;
+            padding: 15px;
+        }
+
+        .btn:hover {
+            transform: scale(1.1);
+            opacity: 0.9;
+        }
+
+        .btn-fee { background: #ff5733; }
+        .btn-room { background: #2980b9; }
+        .btn-maintenance { background: #27ae60; }
+        .btn-leave { background: #f39c12; }
+
+        .logout-btn {
+            position: fixed;
+            top: 15px;
+            right: 20px;
+            background: #e74c3c;
+            padding: 10px 20px;
+            font-size: 14px;
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+            transition: 0.3s;
+            border: none;
+        }
+
+        .logout-btn:hover {
+            background: #c0392b;
+            transform: scale(1.05);
+        }
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        /* 🔹 Rules Section - Separate Styling */
+        .rules-section {
+            margin-top: 40px;
+            text-align: center;
+            padding: 15px;
+        }
+
+        .rules-section a {
+            display: inline-block;
+            background: #ae1abc;
+            color: white;
+            padding: 14px 24px;
+            font-size: 18px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: bold;
+            box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.3);
+            transition: 0.3s;
+        }
+
+        .rules-section a:hover {
+            background: #c50bd5;
+            transform: scale(1.07);
+        }
+
+    </style>
+</head>
+<!-- <body>
+    <div class="dashboard-container">
+        <h2>Welcome, {{ user }}!</h2>
+        <button class="logout-btn" onclick="window.location.href='{{ url_for('logout') }}'">Logout</button>
+        
+        <div class="container">
+            <a class="btn btn-fee" href="{{ url_for('fee_payment') }}">Pay Hostel Fee</a>
+            <a class="btn btn-room" href="{{ url_for('room_allocation') }}">Room Allocation</a>
+            <a class="btn btn-maintenance" href="{{ url_for('maintenance_request') }}">Maintenance Request</a>
+            <a class="btn btn-leave" href="{{ url_for('apply_leave') }}">Apply for Leave</a>
+        </div>
+
+        <!-- Rules & Regulations Button --
+        <div class="rules-section">
+            <a href="{{ url_for('rules') }}">📜 Hostel Rules & Regulations</a>
+        </div>
+    </div>
+</body> -->
+
+<body>
+    <div class="dashboard-container">
+        <h2>Welcome, {{ user }}!</h2>
+        <button class="logout-btn" onclick="window.location.href='{{ url_for('logout') }}'">Logout</button>
+        
+        <div class="container">
+            <a class="btn btn-fee" href="{{ url_for('fee_payment') }}">Pay Hostel Fee</a>
+            <a class="btn btn-room" 
+               href="{{ url_for('room_allocation') }}" 
+               {% if fee_status == 'Unpaid' %} onclick="showPaymentAlert()" style="pointer-events: none; opacity: 0.6;" {% endif %}>
+                Room Allocation
+            </a>
+            <a class="btn btn-maintenance" 
+               href="{{ url_for('maintenance_request') }}" 
+               {% if fee_status == 'Unpaid' %} onclick="showPaymentAlert()" style="pointer-events: none; opacity: 0.6;" {% endif %}>
+                Maintenance Request
+            </a>
+            <a class="btn btn-leave" 
+               href="{{ url_for('apply_leave') }}" 
+               {% if fee_status == 'Unpaid' %} onclick="showPaymentAlert()" style="pointer-events: none; opacity: 0.6;" {% endif %}>
+                Apply for Leave
+            </a>
+        </div>
+
+        <!-- Rules & Regulations Button -->
+        <div class="rules-section">
+            <a href="{{ url_for('rules') }}">📜 Hostel Rules & Regulations</a>
+        </div>
+    </div>
+
+    <script>
+        function showPaymentAlert() {
+            alert("You need to pay your fees to access this feature.");
+        }
+    </script>
+</body>
+</html>

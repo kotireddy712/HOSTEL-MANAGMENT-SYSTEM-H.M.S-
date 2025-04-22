@@ -1,0 +1,133 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Fee Payment</title>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+     
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #111111;
+        }
+
+        .gateway-container {
+            background: #ffffff;
+            padding: 20px 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 300px;
+        }
+
+        .gateway-container h2 {
+            margin-bottom: 20px;
+            color: #333333;
+        }
+
+        .gateway-container p {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #555555;
+        }
+
+        .gateway-container button {
+            background-color: #3399cc;
+            color: #ffffff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .gateway-container button:hover {
+            background-color: #287ba0;
+        }
+
+        .receipt-btn {
+            background-color: #28a745;
+            margin-top: 10px;
+        }
+
+        .receipt-btn:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <div class="gateway-container">
+        {% if fee_status == 'Paid' %}
+            <h2>Fee Already Paid</h2>
+            <p><strong>Amount Paid:</strong> ₹{{ amount }}</p>
+            <p><strong>Payment Date:</strong> {{ payment_date }}</p>
+            <button class="receipt-btn" onclick="downloadReceipt()">Download Receipt</button>
+        {% else %}
+            <h2>Fee Payment</h2>
+            <p>Amount to Pay: ₹<span id="amount">10000</span></p>
+            <button onclick="initiatePayment()">Pay Now</button>
+        {% endif %}
+    </div>
+
+    <script>
+        async function initiatePayment() {
+            const studentId = "{{ student_id }}";
+            const amount = document.getElementById('amount').textContent;
+
+            // Create an order by calling the backend
+            const response = await fetch('/create_order', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ amount })
+            });
+
+            const data = await response.json();
+
+            if (data.error) {
+                alert("Error: " + data.error);
+                return;
+            }
+
+            const options = {
+                key: "rzp_test_1TN1UFcNAX9H61", // Replace with your Razorpay API key
+                amount: amount * 100, // Amount in paise
+                currency: "INR",
+                name: "NIT Calicut",
+                description: "Fee Payment",
+                order_id: data.order_id, // Use the order ID from the backend
+                handler: function (response) {
+                    // Redirect to the backend with payment details
+                    window.location.href = `/payment_success?student_id=${studentId}&amount=${amount}&payment_id=${response.razorpay_payment_id}`;
+                },
+                prefill: {
+                    name: "Student Name",
+                    email: "student.email@example.com",
+                    contact: "9999999999"
+                },
+                theme: {
+                    color: "#3399cc"
+                }
+            };
+
+            const rzp = new Razorpay(options);
+            rzp.open();
+        }
+
+        function downloadReceipt() {
+            // Redirect to a route that generates and downloads the receipt
+            window.location.href = '/download_receipt';
+        }
+    </script>
+</body>
+</html>

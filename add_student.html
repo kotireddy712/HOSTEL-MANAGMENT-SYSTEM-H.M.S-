@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Student</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+    <style>
+        
+        body {
+            animation: backgroundAnimation 10s infinite linear;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background-color: #111111; /* Light gray background */
+     
+        }
+
+        /* 🌟 Blinking Multi-Color Heading */
+        h2 {
+            font-size: 40px;
+            font-weight: bold;
+            /* animation: blinkingColors 1.5s infinite; */
+            color: #00c4cc;
+            position: relative;
+            top: 20px;
+            text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        @keyframes blinkingColors {
+            0% { color: red; }
+            25% { color: orange; }
+            50% { color: yellow; }
+            75% { color: green; }
+            100% { color: blue; }
+        }
+
+        /* 🎨 Form Styling */
+        .container {
+            max-width: 600px;
+            background: #003c64;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            margin-top: 60px;
+            color: aliceblue;
+        }
+
+        .form-label {
+            font-weight: bold;
+        }
+
+        /* ✨ Input Box Styling */
+        .form-control {
+            border-radius: 8px;
+            border: 2px solid #007bff;
+            transition: 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: #f7c32e;
+            box-shadow: 0 0 10px #f7c32e;
+        }
+
+        /* ✅ Submit Button Styling */
+        .btn-submit {
+            width: 100%;
+            background-color: #00c4cc; /* Green */
+            color: white;
+            font-size: 18px;
+            padding: 12px;
+            border-radius: 8px;
+            transition: 0.3s;
+        }
+
+        .btn-submit:hover {
+            background-color: #0c6b6e;
+        }
+
+        .alert {
+            text-align: center;
+        }
+
+        /* 🔙 Return Button */
+        .btn-back {
+            margin-top: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 🌈 Blinking Title (Outside Box) -->
+    <h2> Add New Student </h2>
+
+    <div class="container">
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <form method="POST" action="{{ url_for('add_student') }}" onsubmit="return validateForm()">
+            <div class="mb-3">
+                <label for="student_id" class="form-label">Student ID</label>
+                <input type="text" class="form-control" id="student_id" name="student_id" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="name" class="form-label">Full Name</label>
+                <input type="text" class="form-control" id="name" name="name" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="email_id" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email_id" name="email_id" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control" id="password" name="password" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="date_of_birth" class="form-label">Date of Birth</label>
+                <input type="date" class="form-control" id="date_of_birth" name="date_of_birth" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="contact_number" class="form-label">Contact Number</label>
+                <input type="tel" class="form-control" id="contact_number" name="contact_number" pattern="[0-9]{10}" required>
+                <small class="form-text text-muted">Enter a 10-digit mobile number.</small>
+            </div>
+
+            <div class="mb-3">
+                <label for="gender" class="form-label">Gender</label>
+                <select class="form-control" id="gender" name="gender" required>
+                    <option value="" disabled selected>Select Gender</option>
+                    <option value="M">M</option>
+                    <option value="F">F</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-submit">🚀 Add Student</button>
+        </form>
+
+        <div class="text-center">
+            <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary btn-back">🏠 Back to Dashboard</a>
+        </div>
+    </div>
+
+    <script>
+        function validateForm() {
+            const contact = document.getElementById("contact_number").value;
+            if (contact.length !== 10) {
+                alert("Contact number must be exactly 10 digits.");
+                return false;
+            }
+            return true;
+        }
+    </script>
+
+</body>
+</html>

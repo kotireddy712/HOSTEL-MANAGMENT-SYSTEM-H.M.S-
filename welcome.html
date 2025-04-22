@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hostel Login</title>
+    <!-- <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Multicolor Background */
+        body {
+            background: linear-gradient(45deg, #ff4d4d, #ffcc00, #33cc33, #3399ff, #9933ff, #ff6600);
+            background-size: 400% 400%;
+            animation: bgAnimation 10s infinite alternate;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @keyframes bgAnimation {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+
+        /* Sliding Heading */
+        .heading {
+            font-size: 30px;
+            font-weight: bold;
+            text-transform: uppercase;
+            text-align:justify;
+            animation: slideIn 3s infinite alternate ease-in-out;
+        }
+
+        @keyframes slideIn {
+            0% { transform: translateX(-100%); opacity: 0; }
+            100% { transform: translateX(0); opacity: 1; }
+        }
+
+        .heading span:nth-child(1) { color: #ff4d4d; }  /* Red */
+        .heading span:nth-child(2) { color: #ffcc00; }  /* Yellow */
+        .heading span:nth-child(3) { color: #33cc33; }  /* Green */
+        .heading span:nth-child(4) { color: #3399ff; }  /* Blue */
+        .heading span:nth-child(5) { color: #9933ff; }  /* Purple */
+        .heading span:nth-child(6) { color: #ff6600; }  /* Orange */
+
+        /* Flexbox for Login Boxes */
+        .login-container {
+            display: flex;
+            justify-content: space-around;
+            width: 60%;
+            margin-top: 20px;
+        }
+
+        /* Student & Admin Boxes */
+        .box {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 40px;
+            border-radius: 10px;
+            text-align: center;
+            color: white;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            width: 40%;
+        }
+
+        h2 {
+            font-size: 22px;
+            margin-bottom: 20px;
+        }
+
+        /* Buttons */
+        .btn {
+            display: block;
+            width: 200px;
+            padding: 12px;
+            margin: 10px auto;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: 0.3s;
+            text-decoration: none;
+            text-align: center;
+            color: white;
+        }
+
+        .student-btn {
+            background-color: #4CAF50;
+        }
+
+        .admin-btn {
+            background-color: #f44336;
+        }
+
+        .btn:hover {
+            opacity: 0.8;
+        }
+    </style> -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Professional Gradient Background */
+        body {
+            background-size: 300% 300%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            background-color: #111111;
+        }
+
+        @keyframes bgAnimation {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+
+        /* Modern Heading with Smooth Animation */
+        .heading {
+            font-size: 36px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            text-align: center;
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(-20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Login Container */
+        .login-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            width: 100%;
+            max-width: 800px;
+             
+            
+        }
+
+        /* Glassmorphism Effect for Boxes */
+        .box {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            width: 40%;
+            transition: transform 0.3s ease-in-out;
+            border: 5px solid rgba(5, 5, 5, 0.5);
+        }
+
+        .box:hover {
+            transform: translateY(-5px);
+        }
+
+        h2 {
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            width: 180px;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: 0.3s;
+            text-decoration: none;
+            text-align: center;
+            color: rgb(24, 20, 20);
+            font-weight: 600;
+        }
+
+        .student-btn {
+            background: #4CAF50;
+            box-shadow: 0 4px 10px rgba(76, 175, 80, 0.3);
+        }
+
+        .admin-btn {
+            background: #f44336;
+            box-shadow: 0 4px 10px rgba(244, 67, 54, 0.3);
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+            transform: scale(1.05);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .login-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            .box {
+                width: 80%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sliding Heading -->
+    <div class="heading">
+        <span>W</span><span>e</span><span>l</span><span>c</span><span>o</span><span>m</span><span>e</span>  
+        <span>t</span><span>o</span>  
+        <span>H</span><span>o</span><span>s</span><span>t</span><span>e</span><span>l</span><span>s</span>
+    </div>
+
+    <!-- Login Boxes -->
+    <div class="login-container">
+        <div class="box">
+            <h2>Student Login</h2>
+            <a href="{{ url_for('student_login') }}" class="btn student-btn">Login as Student</a>
+        </div>
+
+        <div class="box">
+            <h2>Admin Login</h2>
+            <a href="{{ url_for('admin_login') }}" class="btn admin-btn">Login as Admin</a>
+        </div>
+    </div>
+
+</body>
+</html>

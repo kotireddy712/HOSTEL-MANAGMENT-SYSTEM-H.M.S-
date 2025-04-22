@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Room Allocation</title>
+    <style>
+        /* 🎨 Background Animation */
+       
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: #111111;
+            color: aliceblue;
+        }
+
+        /* 💡 Blinking Effect */
+        @keyframes blink {
+            0% { color: red; }
+            25% { color: blue; }
+            50% { color: green; }
+            75% { color: orange; }
+            100% { color: purple; }
+        }
+
+        .message {
+            padding: 15px;
+            border-radius: 5px;
+            font-size: 22px;
+            display: inline-block;
+            font-weight: bold;
+            animation: blink 1s infinite alternate;
+            margin-bottom: 50px;  /* 🔹 Added space between message and button */
+        }
+
+        .success { background-color: #d4edda; }
+        .error { background-color: #f8d7da; }
+
+        /* 🔙 Return Button Positioned with Some Space Below the Message */
+        .btn {
+            margin-top: 20px;  /* 🔹 Adds space between message & button */
+            padding: 12px 25px;
+            font-size: 18px;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            position: relative;
+            right: -80px; /* Moves button slightly to the right */
+        }
+        .btn:hover { background-color: #0056b3; }
+    </style>
+</head>
+<body>
+    {% if message_type == 'success' %}
+        <div class="message success">{{ message }}</div>
+    {% elif message_type == 'error' %}
+        <div class="message error">{{ message }}</div>
+    {% endif %}
+
+    <!-- 🔙 Return to Dashboard Button with Correct Spacing -->
+    <a href="{{ url_for('student_dashboard') }}" class="btn">Return to Dashboard</a>
+</body>
+</html>

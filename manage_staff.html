@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Manage Staff</title>
+    <style>
+      body {
+        font-family: "Arial", sans-serif;
+        background: linear-gradient(to right, #2c3e50, #4ca1af);
+        color: #ffffff;
+        text-align: center;
+        margin: 0;
+        padding: 20px;
+      }
+
+      .container {
+        max-width: 500px;
+        margin: auto;
+        padding: 30px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+      }
+
+      h1 {
+        font-size: 28px;
+        margin-bottom: 10px;
+      }
+
+      p {
+        font-size: 16px;
+        margin-bottom: 20px;
+        opacity: 0.8;
+      }
+
+      .button-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .btn {
+        display: block;
+        text-decoration: none;
+        font-size: 18px;
+        font-weight: bold;
+        padding: 12px;
+        border-radius: 8px;
+        transition: 0.3s ease-in-out;
+        color: white;
+        text-align: center;
+      }
+
+      .btn-blue {
+        background: #3498db;
+      }
+      .btn-green {
+        background: #2ecc71;
+      }
+      .btn-orange {
+        background: #f39c12;
+      }
+      .btn-red {
+        background: #e74c3c;
+      }
+
+      .btn:hover {
+        filter: brightness(1.2);
+        transform: scale(1.05);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>👨‍🏫 Manage Staff</h1>
+      <p>Choose an option below to manage staff records.</p>
+
+      <div class="button-grid">
+        <a href="{{ url_for('view_staff') }}" class="btn btn-blue"
+          >📋 View Staff List</a
+        >
+        <a href="{{ url_for('add_staff') }}" class="btn btn-green"
+          >➕ Add New Staff</a
+        >
+        <!-- <a href="{{ url_for('edit_staff') }}" class="btn btn-orange"
+          >✏️ Edit Staff Details</a
+        > -->
+        <a href="{{ url_for('delete_staff') }}" class="btn btn-red"
+          >🗑 Delete Staff Record</a
+        >
+      </div>
+    </div>
+  </body>
+</html>

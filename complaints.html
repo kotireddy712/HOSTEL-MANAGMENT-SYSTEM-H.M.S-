@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Complaints</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-size: 500% 2000%;
+            animation: gradientBG 10s infinite alternate;
+            color: white;
+            text-align: center;
+            background-color: #333333;
+        }
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background: white;
+            color: black;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background-color: darkblue;
+            color: white;
+        }
+        .back-btn, .delete-btn {
+            display: inline-block;
+            width: 200px;
+            margin: 20px;
+            padding: 10px;
+            color: white;
+            text-decoration: none;
+            text-align: center;
+            font-size: 18px;
+            border-radius: 5px;
+        }
+        .back-btn {
+            background: red;
+        }
+        .back-btn:hover {
+            background: darkred;
+        }
+        .delete-btn {
+            background: darkred;
+            cursor: pointer;
+            border: none;
+        }
+        .delete-btn:hover {
+            background: crimson;
+        }
+        .filter-bar {
+            margin: 20px auto;
+        }
+        select {
+            padding: 8px;
+            font-size: 16px;
+        }
+        .status-select {
+            padding: 5px;
+            font-size: 14px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <h1>Maintenance Requests</h1>
+
+    <!-- Filter Search Bar -->
+    <form class="filter-bar" method="GET" action="{{ url_for('view_complaints') }}">
+        <label for="status">Filter by Status:</label>
+        <select name="status" id="status" onchange="this.form.submit()">
+            <option value="" {% if not status_filter %}selected{% endif %}>All</option>
+            <option value="In Progress" {% if status_filter == "In Progress" %}selected{% endif %}>In Progress</option>
+            <option value="Completed" {% if status_filter == "Completed" %}selected{% endif %}>Completed</option>
+            <option value="Rejected" {% if status_filter == "Rejected" %}selected{% endif %}>Rejected</option>
+        </select>
+    </form>
+
+    <!-- Bulk Delete Form -->
+    <form action="{{ url_for('view_complaints') }}" method="POST" onsubmit="return confirm('Are you sure you want to delete selected complaints?');">
+        <table>
+            <tr>
+                <th>Select</th>
+                <th>Request ID</th>
+                <th>Student ID</th>
+                <th>Room Number</th>
+                <th>Request Date</th>
+                <th>Description</th>
+                <th>Status</th>
+            </tr>
+            {% for complaint in complaints %}
+            <tr>
+                <td><input type="checkbox" name="selected_complaints" value="{{ complaint.request_id }}"></td>
+                <td>{{ complaint.request_id }}</td>
+                <td>{{ complaint.student_id }}</td>
+                <td>{{ complaint.room_number }}</td>
+                <td>{{ complaint.request_date }}</td>
+                <td>{{ complaint.description }}</td>
+                <td>
+                    <!-- Status Update Form -->
+                    <form action="{{ url_for('view_complaints') }}" method="POST">
+                        <input type="hidden" name="request_id" value="{{ complaint.request_id }}">
+                        <select name="status" class="status-select" onchange="this.form.submit()">
+                            <option value="In Progress" {% if complaint.status == "In Progress" %}selected{% endif %}>In Progress</option>
+                            <option value="Completed" {% if complaint.status == "Completed" %}selected{% endif %}>Completed</option>
+                            <option value="Rejected" {% if complaint.status == "Rejected" %}selected{% endif %}>Rejected</option>
+                        </select>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <!-- Delete Selected Button -->
+        <button type="submit" class="delete-btn">Delete Selected</button>
+    </form>
+
+    <a href="{{ url_for('admin_dashboard') }}" class="back-btn">Return to Dashboard</a>
+</body>
+</html>

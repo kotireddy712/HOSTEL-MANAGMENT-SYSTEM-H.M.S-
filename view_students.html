@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Students</title>
+    <style>
+        /* 🎨 Background Animation */
+        @keyframes backgroundAnimation {
+            /* 0% { background: #ff9a9e; }
+            25% { background: #fad0c4; }
+            50% { background: #fbc2eb; }
+            75% { background: #a18cd1; }
+            100% { background: #ff9a9e; } */
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            animation: backgroundAnimation 10s infinite linear;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            transition: background 0.5s ease-in-out;
+            background-color: #111111;
+        }
+
+        /* 🔙 Return to Dashboard Button */
+        .dashboard-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 12px 22px;
+            background: #d9534f;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        .dashboard-btn:hover {
+            background: #b52b27;
+        }
+
+        /* 🌈 Blinking Multi-Color "Student List" */
+        h2 {
+            font-size: 36px;
+            font-weight: bold;
+            animation: blinkingColors 1.5s infinite;
+            color: #00c4cc;
+        }
+ 
+
+        /* 🔍 Stylish Search Box */
+        .search-container {
+            margin: 20px auto;
+            text-align: center;
+        }
+
+        .search-container input[type="text"] {
+            width: 400px;
+            padding: 14px;
+            border: 3px solid #006fe5;
+            border-radius: 25px;
+            font-size: 18px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .search-container input[type="text"]:focus {
+            border-color: #f7c32e;
+            box-shadow: 0 0 10px #f7c32e;
+        }
+
+        /* ✅ Changed search button color */
+        .search-container button {
+            padding: 12px 18px;
+            border: none;
+            border-radius: 25px;
+            background-color: #28a745; /* Green */
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .search-container button:hover {
+            background-color: #218838; /* Darker Green */
+        }
+
+        /* 📜 Table Styling */
+        .student-list {
+            width: 80%;
+            margin: auto;
+            background:  #003c64;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .student-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        .student-table th, .student-table td {
+            padding: 12px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        /* 🎨 Different Colors for Each Column */
+        .student-table th:nth-child(1), .student-table td:nth-child(1) { background-color: #ffcccc; } /* ID */
+        .student-table th:nth-child(2), .student-table td:nth-child(2) { background-color: #ccffcc; } /* Name */
+        .student-table th:nth-child(3), .student-table td:nth-child(3) { background-color: #ccccff; } /* DOB */
+        .student-table th:nth-child(4), .student-table td:nth-child(4) { background-color: #ffff99; } /* Contact */
+        .student-table th:nth-child(5), .student-table td:nth-child(5) { background-color: #ff99ff; } /* Email */
+        .student-table th:nth-child(6), .student-table td:nth-child(6) { background-color: #99ccff; } /* Gender */
+        .student-table th:nth-child(7), .student-table td:nth-child(7) { background-color: #ffcc99; } /* Room */
+        .student-table th:nth-child(8), .student-table td:nth-child(8) { background-color: #d4aaff; } /* First Login Time */
+
+        /* 🔄 Pagination */
+        .pagination {
+            margin-top: 20px;
+        }
+
+        .pagination a {
+            padding: 10px 15px;
+            margin: 5px;
+            text-decoration: none;
+            background: #007bff;
+            color: white;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .pagination a:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 🔙 Return to Dashboard Button -->
+    <button class="dashboard-btn" onclick="window.location.href='{{ url_for('admin_dashboard') }}'">🏠 Return to Dashboard</button>
+
+    <h2>📋 Student List</h2>
+
+    <div class="search-container">
+        <form method="POST" action="{{ url_for('view_students') }}">
+            <input type="text" name="search_query" placeholder="🔍 Search by Name or ID or Hostel_name" value="{{ search_query }}">
+            <button type="submit">Search</button>
+        </form>
+    </div>
+
+    <div class="student-list">
+        <table class="student-table">
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Date of Birth</th>
+                <th>Contact</th>
+                <th>Email</th>
+                <th>Gender</th>
+                <th>Room</th>
+                <th>First Login Time</th>
+            </tr>
+            {% for student in students %}
+            <tr>
+                <td>{{ student[0] }}</td>
+                <td>{{ student[1] }}</td>
+                <td>{{ student[2] }}</td>
+                <td>{{ student[3] }}</td>
+                <td>{{ student[4] }}</td>
+                <td>{{ student[5] }}</td>
+                <td>{{ student[6] }}</td>  <!-- Room Number -->
+                <td>{{ student[7] }}</td>  <!-- First Login Time -->
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <!-- Pagination Controls -->
+    <div class="pagination">
+        {% if page > 1 %}
+            <a href="{{ url_for('view_students', page=page-1) }}">⏪ Previous</a>
+        {% endif %}
+        {% if students|length == 50 %}
+            <a href="{{ url_for('view_students', page=page+1) }}">Next ⏩</a>
+        {% endif %}
+    </div>
+
+</body>
+</html>

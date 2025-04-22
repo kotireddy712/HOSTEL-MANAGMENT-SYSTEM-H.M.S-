@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Student</title>
+    <style>
+        /* Animated multi-color changing background */
+     
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            animation: backgroundAnimation 10s infinite alternate;
+            background-color: #111111;
+            color: aliceblue;
+        }
+
+        /* Dashboard button */
+        .dashboard-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: #007bff;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 5px;
+        }
+        .dashboard-btn:hover { background-color: #0056b3; }
+
+        /* Eye-catching title color */
+        h2 {
+            text-align: center;
+            color: #800080; /* Purple */
+            font-size: 28px;
+            background: yellow;
+            display: inline-block;
+            padding: 10px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        /* Flash message */
+        .flash-message {
+            color: green;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        /* Form elements */
+        form {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        input[type="text"] {
+            padding: 8px;
+            width: 300px;
+        }
+        button {
+            padding: 10px 15px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+        }
+
+        /* Delete Button */
+        .delete-btn {
+            background-color: red;
+            color: white;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+        .delete-btn:hover { background-color: darkred; }
+
+        /* Table Styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            color:black;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        /* Different column colors */
+        th:nth-child(1) { background-color: #ff9999; }
+        th:nth-child(2) { background-color: #ffcc99; }
+        th:nth-child(3) { background-color: #ffff99; }
+        th:nth-child(4) { background-color: #99ff99; }
+        th:nth-child(5) { background-color: #99ccff; }
+
+        td:nth-child(1) { background-color: #ffe6e6; }
+        td:nth-child(2) { background-color: #ffe0b3; }
+        td:nth-child(3) { background-color: #ffffcc; }
+        td:nth-child(4) { background-color: #ccffcc; }
+        td:nth-child(5) { background-color: #cce6ff; }
+    </style>
+</head>
+<body>
+
+    <!-- Return to Dashboard Button -->
+    <a href="/admin_dashboard" class="dashboard-btn">🏠 Return to Dashboard</a>
+
+    <center>
+        <h2>🗑 Delete Student Records</h2>
+    </center>
+
+    <!-- Flash Message -->
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="flash-message">{{ messages[0] }}</div>
+        {% endif %}
+    {% endwith %}
+
+    <!-- Search Form -->
+    <form method="POST">
+        <input type="text" name="search_query" placeholder="Search by Student ID or Name" value="{{ search_query }}">
+        <button type="submit">🔍 Search</button>
+    </form>
+
+    <!-- Delete Button - Moved Away from Search Box -->
+    <form method="POST" id="deleteForm">
+        <div style="text-align: center; margin-top: 30px;">
+            <button type="submit" class="delete-btn" name="delete_selected" onclick="return confirmDelete()">❌ Delete Selected</button>
+        </div>
+
+        {% if students %}
+            <table>
+                <tr>
+                    <th><input type="checkbox" id="selectAll"></th>
+                    <th>Student ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Room</th>
+                </tr>
+                {% for student in students %}
+                <tr>
+                    <td><input type="checkbox" name="selected_students" value="{{ student[0] }}"></td>
+                    <td>{{ student[0] }}</td>
+                    <td>{{ student[1] }}</td>
+                    <td>{{ student[2] }}</td>
+                    <td>{{ student[3] }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        {% else %}
+            <p style="text-align: center; font-weight: bold;">No students found.</p>
+        {% endif %}
+    </form>
+
+    <!-- JavaScript for Select All & Confirmation Popup -->
+    <script>
+        document.getElementById("selectAll").addEventListener("click", function() {
+            let checkboxes = document.querySelectorAll('input[name="selected_students"]');
+            checkboxes.forEach(cb => cb.checked = this.checked);
+        });
+
+        function confirmDelete() {
+            return confirm("⚠️ Are you sure you want to delete the selected students?");
+        }
+    </script>
+
+</body>
+</html>

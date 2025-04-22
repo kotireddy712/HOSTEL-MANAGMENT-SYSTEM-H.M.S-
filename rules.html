@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hostel Rules & Regulations</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            height: 100vh;
+            color: #333;
+            text-align: center;
+            padding: 20px;
+            background-color: #111111;
+        }
+
+        .container {
+            width: 80%;
+            max-width: 800px;
+            background: #003c64;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.1);
+            color: aliceblue;
+        }
+
+        h2 {
+            color: #white;
+            margin-bottom: 15px;
+            font-size: 28px;
+        }
+
+        ul {
+            text-align: left;
+            margin-top: 15px;
+            font-size: 18px;
+            line-height: 1.6;
+        }
+
+        ul li {
+            margin-bottom: 10px;
+            padding-left: 10px;
+            position: relative;
+        }
+
+        ul li::before {
+            content: "✔";
+            color: #16a085;
+            font-weight: bold;
+            position: absolute;
+            left: -20px;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            color: white;
+            background: #3498db;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .back-btn:hover {
+            background: #2980b9;
+            transform: scale(1.05);
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>📜 Hostel Rules & Regulations</h2>
+        <ul>
+            <li>Students must return to the hostel by **9:00 PM** every day.</li>
+            <li>Strict silence should be maintained in the hostel after **10:00 PM**.</li>
+            <li>Visitors are **not allowed** inside hostel rooms.</li>
+            <li>Students must **keep their rooms clean** at all times.</li>
+            <li>Cooking inside the rooms is **strictly prohibited**.</li>
+            <li>Alcohol, smoking, or any form of drugs are **banned** in hostel premises.</li>
+            <li>Any damage to hostel property will result in a **fine**.</li>
+            <li>Students must **inform the warden** before leaving the hostel overnight.</li>
+            <li>Mess food should not be **wasted** and should be taken as per requirement.</li>
+            <li>Students must **cooperate** with hostel staff and fellow students.</li>
+        </ul>
+
+        <a href="{{ url_for('student_dashboard') }}" class="back-btn">⬅ Back to Dashboard</a>
+    </div>
+
+</body>
+</html>

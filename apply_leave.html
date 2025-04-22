@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Leave application Page</title>
+    <style>
+      /* Smooth Multi-Color Gradient Background */
+      body {
+        font-family: Arial, sans-serif;
+        background-size: 400% 400%;
+        animation: gradientAnimation 10s ease infinite;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        background-color: #111111;
+      }
+
+      /* Gradient Animation */
+      @keyframes gradientAnimation {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+
+      /* Centered Form Container */
+      .container {
+        background: #003c64; /* Light Transparent Box */
+        padding: 25px;
+        border-radius: 12px;
+        box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+        width: 90%;
+        max-width: 450px;
+        text-align: center;
+      }
+
+      /* Multi-Color Gradient Heading */
+      h2 {
+        font-size: 24px;
+        font-weight: bold;
+        background: linear-gradient(
+          90deg,
+          #ff5722,
+          #ff9800,
+          #ffeb3b,
+          #8bc34a,
+          #03a9f4,
+          #673ab7
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: colorAnimation 5s infinite alternate;
+      }
+
+      /* Smooth Color Animation */
+      @keyframes colorAnimation {
+        0% {
+          filter: hue-rotate(0deg);
+        }
+        100% {
+          filter: hue-rotate(360deg);
+        }
+      }
+
+      /* Instruction Text */
+      .instructions {
+        font-size: 14px;
+        color: #555;
+        margin-bottom: 10px;
+      }
+
+      /* Styled Textarea */
+      textarea {
+        width: 100%;
+        height: 120px;
+        padding: 12px 0px 12px 0px;
+        border: 2px solid #ccc;
+        border-radius: 8px;
+        font-size: 16px;
+        resize: none;
+        transition: 0.3s;
+      }
+
+      textarea:focus {
+        border-color: pink;
+        outline: none;
+      }
+
+      /* Styled Submit Button */
+      button {
+        background: linear-gradient(90deg, #ff5722, #ff9800, #ffeb3b);
+        color: white;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        cursor: pointer;
+        margin-top: 15px;
+        width: 100%;
+        transition: 0.3s;
+      }
+
+      button:hover {
+        background: linear-gradient(90deg, #673ab7, #03a9f4);
+      }
+
+      /* New Stylish Rules & Contact Box */
+      .rules-box {
+        margin-top: 25px;
+        padding: 18px;
+        background: rgba(255, 255, 255, 0.92);
+        border-radius: 15px;
+        box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+        max-width: 450px;
+        text-align: center;
+        font-size: 15px;
+        color: #333;
+        border-left: 5px solid #ff5722;
+        border-right: 5px solid #03a9f4;
+      }
+
+      .rules-box h3 {
+        font-size: 18px;
+        color: #d32f2f;
+        margin-bottom: 10px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      .rules-box p {
+        margin: 8px 0;
+        line-height: 1.5;
+      }
+
+      /* Contact Info */
+      .contact {
+        margin-top: 10px;
+        font-size: 14px;
+        font-weight: bold;
+        color: #444;
+      }
+
+      .contact a {
+        color: #d32f2f;
+        text-decoration: none;
+      }
+
+      .contact a:hover {
+        text-decoration: underline;
+      }
+
+      input[type="date"] {
+        padding: 10px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        outline: none;
+        width: 200px;
+        cursor: pointer;
+        background-color: #f8f8f8;
+        transition: all 0.3s ease-in-out;
+    }
+
+    input[type="date"]:focus {
+        border-color: #007bff;
+        background-color: #fff;
+    }
+
+    button {
+        padding: 10px 15px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background 0.3s ease-in-out;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
+    .btn {
+            margin-top: 20px;  /* 🔹 Adds space between message & button */
+            padding: 12px 25px;
+            font-size: 18px;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            position: relative;
+            right: -80px; /* Moves button slightly to the right */
+        }
+        .btn:hover { background-color: #0056b3; }
+    </style>
+  </head>
+  <body>
+    <!-- Maintenance Request Form -->
+    <div class="container">
+      <h2>Apply For Leave</h2>
+      <p class="instructions"  >
+        Please describe the reason in detail and mention the date of return.
+      </p>
+
+      <form action="/apply-leave" method="post">
+        <input
+          type="hidden"
+          name="student_id"
+          value="{{ session['student_id'] }}"
+        />
+        <textarea
+          name="description"
+          placeholder="Enter Reason for leave..."
+          required
+        ></textarea>
+        <br />
+        <br />
+        <label for="return_date">Return Date:</label>
+        <input type="date" id="return_date" name="return_date" required />
+        <br />
+        <button type="submit">Submit Request</button>
+      </form>
+    </div>
+
+    <!-- Updated Rules & Contact Section -->
+    <!-- <div class="rules-box">
+      <h3>⚠️ Important Guidelines</h3>
+      <p>
+        🚫 <b>Please do not submit minor issues.</b> Only report significant
+        maintenance problems.
+      </p>
+      <p>📢 If you have any queries, contact the hostel office:</p>
+
+      <div class="contact">
+        📞 <b>Phone:</b> +91-9876543210<br />
+        📧 <b>Email:</b>
+        <a href="mailto:hosteloffice@college.ac.in"
+          >hosteloffice@college.ac.in</a
+        >
+      </div> -->
+    </div>
+    <a href="{{ url_for('student_dashboard') }}" class="btn"
+        >Return to Dashboard</a
+      >
+  </body>
+</html>

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Leaves</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-size: 500% 2000%;
+            animation: gradientBG 10s infinite alternate;
+            color: white;
+            text-align: center;
+            background-color: #111111;
+        }
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background: white;
+            color: black;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background-color: #003c64;
+            color: white;
+        }
+        .back-btn {
+            display: block;
+            width: 200px;
+            margin: 20px auto;
+            padding: 10px;
+            background: red;
+            color: white;
+            text-decoration: none;
+            text-align: center;
+            font-size: 18px;
+            border-radius: 5px;
+        }
+        .back-btn:hover {
+            background: darkred;
+        }
+        .filter-bar {
+            margin: 20px auto;
+        }
+        select {
+            padding: 8px;
+            font-size: 16px;
+        }
+        .leave-summary {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+            font-size: 18px;
+        }
+        .summary-box {
+            padding: 10px 20px;
+            background: white;
+            color: black;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+        .delete-btn {
+            margin: 20px auto;
+            padding: 10px 20px;
+            font-size: 16px;
+            background: darkred;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .delete-btn:hover {
+            background: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>Student Leave List</h1>
+
+    <!-- Leave Summary -->
+    <div class="leave-summary">
+        <div class="summary-box">On Leave: {{ on_leave_count }}</div>
+    </div>
+
+    <!-- Filter Dropdown -->
+    <form class="filter-bar" method="GET" action="{{ url_for('leave_requests') }}">
+        <label for="status">Filter by Status:</label>
+        <select name="status" id="status" onchange="this.form.submit()">
+            <option value="" {% if not status_filter %}selected{% endif %}>All</option>
+            <option value="On leave" {% if status_filter == "On leave" %}selected{% endif %}>On Leave</option>
+            <option value="Returned" {% if status_filter == "Returned" %}selected{% endif %}>Returned</option>
+        </select>
+    </form>
+
+    <!-- Student Leave Table with Bulk Delete Form -->
+    <form method="POST" action="{{ url_for('leave_requests') }}">
+        <table>
+            <tr>
+                <th>Select</th>
+                <th>Leave ID</th>
+                <th>Name</th>
+                <th>Contact No</th>
+                <th>Student ID</th>
+                <th>Start Date</th>
+                <th>Return Date</th>
+                <th>Description</th>
+                <th>Status</th>
+            </tr>
+            {% for leave in leaves %}
+            <tr>
+                <td>
+                    <input type="checkbox" name="selected_leaves" value="{{ leave.leave_id }}">
+                </td>
+                <td>{{ leave.leave_id }}</td>
+                <td>{{ leave.name }}</td>
+                <td>{{ leave.contact_number }}</td>
+                <td>{{ leave.student_id }}</td>
+                <td>{{ leave.start_date }}</td>
+                <td>{{ leave.return_date }}</td>
+                <td>{{ leave.reason }}</td>
+                <td>
+                    <select name="status_{{ leave.leave_id }}" onchange="updateStatus('{{ leave.leave_id }}', this.value)">
+                        <option value="On leave" {% if leave.status == "On leave" %}selected{% endif %}>On Leave</option>
+                        <option value="Returned" {% if leave.status == "Returned" %}selected{% endif %}>Returned</option>
+                    </select>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <!-- Delete Selected Button -->
+        <input type="submit" value="Delete Selected" class="delete-btn" onclick="return confirm('Are you sure you want to delete selected leave requests?');">
+    </form>
+
+    <a href="{{ url_for('admin_dashboard') }}" class="back-btn">Return to Dashboard</a>
+
+    <script>
+        function updateStatus(leaveId, status) {
+            fetch("{{ url_for('leave_requests') }}", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body: new URLSearchParams({
+                    "leave_id": leaveId,
+                    "status": status
+                })
+            }).then(response => location.reload());
+        }
+    </script>
+</body>
+</html>

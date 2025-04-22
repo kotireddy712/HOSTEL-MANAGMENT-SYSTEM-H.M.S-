@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hostel {{ hostel }} Details</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; background-color: #111111; }
+        .container { margin: 50px auto; background: #003c64; padding: 20px; border-radius: 10px; width: 80%;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 10px; border: 1px solid #ddd; text-align: center; }
+        th { background-color: #007bff; color: white; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Hostel {{ hostel }} Details</h2>
+        <h3>Total Students Present: {{ total_students }}</h3>
+
+        <table>
+            <tr>
+                <th>Student ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Contact Number</th>
+                <th>Room</th>
+            </tr>
+            {% for student in students %}
+            <tr>
+                <td>{{ student.student_id }}</td>
+                <td>{{ student.name }}</td>
+                <td>{{ student.email_id }}</td>
+                <td>{{ student.contact_number }}</td>
+                <td>{{ student.room }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+</body>
+</html>
+ 
